@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIGNALPSA — AI-Powered Urine Biomarker Monitoring</title>
+  <meta name="description" content="SignalPSA is a conceptual non-invasive urine biomarker monitoring platform using AI, biosensors, and longitudinal analysis for earlier prostate cancer risk detection." />
+  <link rel="preconnect" href="[fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
+  <link href="[fonts.googleapis.com](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap)" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#070a0f;
+      --bg-2:#0b1020;
+      --navy:#0b1630;
+      --panel:#0d1224cc; /* glass */
+      --line:#1b2b4d;
+      --text:#e9f0ff;
+      --muted:#a9b7d1;
+      --electric:#5ad1ff;
+      --electric-2:#86f0ff;
+      --accent:#2dd4bf;
+      --danger:#ff6b6b;
+      --ok:#3be3a5;
+      --glow:0 0 32px rgba(90,209,255,.35), 0 0 4px rgba(134,240,255,.8) inset;
+      --radius:18px;
+      --blur:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:var(--text);
+      background:radial-gradient(1200px 1200px at 80% -20%, #0d2a42 0%, rgba(13,42,66,0) 50%), radial-gradient(900px 900px at -10% 120%, #0a2138 0%, rgba(10,33,56,0) 55%), var(--bg);
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+    a{color:var(--electric)}
+    /* Navigation */
+    .nav{
+      position:fixed; top:0; left:0; width:100%;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 28px; z-index:1000;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(8,12,22,.7), rgba(8,12,22,.25));
+      border-bottom:1px solid rgba(134,240,255,.08);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.18em;
+    }
+    .logo-dot{
+      width:14px; height:14px; border-radius:50%;
+      background:radial-gradient(circle at 40% 40%, var(--electric-2), var(--electric));
+      box-shadow:0 0 16px rgba(90,209,255,.9);
+    }
+    .menu a{
+      text-decoration:none; margin-left:22px; color:var(--muted); font-weight:600; letter-spacing:.04em;
+    }
+    .menu a:hover{color:var(--text)}
+    .cta{
+      margin-left:18px; padding:10px 16px; border-radius:14px;
+      background:linear-gradient(180deg, #1b2a49, #0e1a33);
+      color:#dff6ff; border:1px solid rgba(134,240,255,.25);
+      box-shadow:0 0 20px rgba(90,209,255,.25);
+    }
+    /* Sections */
+    section{position:relative; padding:120px 6vw}
+    .center{max-width:1200px; margin:0 auto}
+    h1,h2,h3{margin:0 0 16px}
+    h1{font-size:clamp(38px, 6vw, 96px); line-height:1.02; letter-spacing:.14em}
+    .subtitle{
+      font-size:clamp(16px, 2vw, 22px); color:#cfeaff; max-width:900px; line-height:1.6; margin-top:14px
+    }
+    .hero{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:min(5vw,56px); align-items:center; min-height:90vh;
+    }
+    .chip{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px; border-radius:999px; font-weight:600; color:#c6e7ff;
+      background:linear-gradient(180deg, rgba(25,40,70,.6), rgba(10,18,36,.6));
+      border:1px solid rgba(134,240,255,.25);
+      box-shadow:0 0 12px rgba(90,209,255,.25) inset, 0 0 14px rgba(90,209,255,.18);
+    }
+    .hero-visual{
+      position:relative; aspect-ratio:1/1; border-radius:26px; overflow:hidden;
+      background:radial-gradient(600px 600px at 50% 110%, rgba(90,209,255,.18), rgba(90,209,255,0) 55%), linear-gradient(180deg, #07101d, #050a14);
+      border:1px solid rgba(134,240,255,.15);
+      box-shadow:0 40px 120px rgba(0,0,0,.7), inset 0 0 120px rgba(90,209,255,.06);
+    }
+    /* Placeholder device 3D silhouette */
+    .device{
+      position:absolute; inset:0; display:grid; place-items:center; filter:drop-shadow(0 20px 40px rgba(90,209,255,.25));
+      animation:float 8s ease-in-out infinite;
+    }
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+    .device svg{width:86%; height:auto}
+    /* Holographic overlays */
+    .holo{
+      position:absolute; inset:auto 0 0 0; height:44%; pointer-events:none;
+      background:radial-gradient(50% 120% at 50% 100%, rgba(90,209,255,.25), rgba(0,0,0,0) 70%);
+      mix-blend:screen;
+    }
+    .glass{
+      background:linear-gradient(180deg, rgba(16,24,46,.75), rgba(10,17,36,.55));
+      border:1px solid rgba(134,240,255,.18);
+      border-radius:var(--radius);
+      backdrop-filter:blur(var(--blur)) saturate(140%);
+      box-shadow:0 10px 60px rgba(0,0,0,.5), inset 0 0 40px rgba(134,240,255,.08);
+    }
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:28px}
+    .grid-3{display:grid; grid-template-columns:repeat(3, 1fr); gap:28px}
+    .grid-4{display:grid; grid-template-columns:repeat(4, 1fr); gap:24px}
+    .badge{color:#9fdfff; font-weight:700; letter-spacing:.12em; font-size:.85rem}
+    p{color:var(--muted); line-height:1.75}
+    li{color:var(--muted)}
+    .divider{height:1px; background:linear-gradient(90deg, rgba(134,240,255,0), rgba(134,240,255,.35), rgba(134,240,255,0)); margin:26px 0}
+    .mini{
+      font-size:.94rem; color:#cfe9ff; letter-spacing:.02em
+    }
+    .tag{
+      padding:6px 10px; border-radius:10px; border:1px solid rgba(134,240,255,.25); color:#bfeaff; background:rgba(15,26,46,.5)
+    }
+    /* Lines and particles */
+    canvas#fx{position:fixed; inset:0; z-index:-1}
+    .scanline{position:fixed; inset:0; pointer-events:none; opacity:.06; background:repeating-linear-gradient(180deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px)}
+    /* Reveal */
+    .reveal{opacity:0; transform:translateY(18px); transition:opacity .8s ease, transform .8s ease}
+    .reveal.on{opacity:1; transform:translateY(0)}
+    /* Problem section cards */
+    .icon{
+      width:42px; height:42px; display:grid; place-items:center; border-radius:12px; margin-bottom:12px;
+      background:radial-gradient(circle at 40% 40%, rgba(90,209,255,.3), rgba(90,209,255,.05));
+      border:1px solid rgba(134,240,255,.2);
+      box-shadow:var(--glow)
+    }
+    /* Flow */
+    .flow{display:flex; gap:18px; flex-wrap:wrap; align-items:stretch}
+    .flow .step{flex:1 1 200px; padding:20px; position:relative}
+    .flow .step:after{
+      content:"→"; position:absolute; right:-12px; top:50%; transform:translateY(-50%); color:#8ddcff; font-weight:900; opacity:.6
+    }
+    .flow .step:last-child:after{display:none}
+    /* Dashboard */
+    .dash{display:grid; grid-template-columns:1.2fr .8fr; gap:24px}
+    .panel{padding:18px}
+    .chart{
+      height:260px; border-radius:14px; background:linear-gradient(180deg, rgba(5,12,24,.5), rgba(8,14,28,.7));
+      border:1px solid rgba(134,240,255,.22); position:relative; overflow:hidden
+    }
+    .chart canvas{position:absolute; inset:0}
+    .legend{display:flex; gap:14px; margin-top:10px; flex-wrap:wrap}
+    .dot{width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:6px}
+    /* Footer / End scene */
+    .end{
+      display:grid; place-items:center; text-align:center; padding:160px 6vw 200px;
+      background:radial-gradient(1000px 500px at 50% 120%, rgba(90,209,255,.08), rgba(0,0,0,0) 60%);
+    }
+    .end .sig{
+      font-size:clamp(28px,4vw,48px); letter-spacing:.22em; color:#d9f6ff;
+      text-shadow:0 0 24px rgba(90,209,255,.45);
+    }
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; gap:34px}
+      .dash{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+      .flow .step:after{display:none}
+    }
+    @media (max-width:620px){ .grid-4{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <canvas id="fx"></canvas>
+  <div class="scanline"></div>
+
+  <nav class="nav">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <span>SIGNALPSA</span>
+    </div>
+    <div class="menu">
+      <a href="#problem">Problem</a>
+      <a href="#how">How It Works</a>
+      <a href="#dashboard">AI Dashboard</a>
+      <a href="#vision">Future Vision</a>
+      <a href="#technology">Technology</a>
+      <button class="cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="center hero" id="home" style="padding-top:140px">
+    <div class="reveal on">
+      <div class="chip"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--electric);box-shadow:0 0 10px rgba(90,209,255,.9)"></span> Premium Biotech Concept</div>
+      <h1>SIGNALPSA</h1>
+      <p class="subtitle">“AI-Powered Urine Biomarker Monitoring for Early Prostate Cancer Risk Detection”</p>
+      <div class="divider"></div>
+      <p class="mini">Non-invasive longitudinal analysis of urinary biomarkers with microfluidics, biosensors, and AI signal processing. Designed to explore earlier, more accurate risk insights and shift care from reactive to preventative.</p>
+      <div style="margin-top:22px; display:flex; gap:12px; flex-wrap:wrap">
+        <span class="tag">Dark mode</span>
+        <span class="tag">Glassmorphism</span>
+        <span class="tag">Electric Blue Glow</span>
+        <span class="tag">Cinematic Transitions</span>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <!-- Futuristic 3D device silhouette (SVG placeholder). Replace with your 3D render image/video -->
+      <div class="device" aria-label="Futuristic portable urine biosensor">
+        <svg viewBox="0 0 1200 1200">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#86f0ff"/>
+              <stop offset="1" stop-color="#5ad1ff"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="6" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Body -->
+          <rect x="170" y="180" rx="80" ry="80" width="860" height="640" fill="#0c162b" stroke="#1c355e" stroke-width="4" filter="url(#glow)"/>
+          <!-- Screen -->
+          <rect x="230" y="230" rx="40" width="740" height="380" fill="#060c18"/>
+          <rect x="230" y="230" rx="40" width="740" height="380" fill="url(#g1)" opacity=".06"/>
+          <!-- Holo ring -->
+          <circle cx="600" cy="420" r="150" stroke="url(#g1)" stroke-width="6" fill="none" opacity=".9"/>
+          <circle cx="600" cy="420" r="120" stroke="#2dd4bf" stroke-dasharray="18 12" stroke-width="4" fill="none" opacity=".7"/>
+          <text x="600" y="430" text-anchor="middle" fill="#bff3ff" font-size="42" font-weight="800">Analyzing…</text>
+          <!-- Cartridge -->
+          <rect x="460" y="820" width="280" height="28" rx="12" fill="#e6f7ff"/>
+          <rect x="730" y="812" width="200" height="44" rx="16" fill="#0c1428" stroke="#1c355e"/>
+          <circle cx="760" cy="834" r="8" fill="url(#g1)"/>
+        </svg>
+      </div>
+      <div class="holo"></div>
+    </div>
+  </section>
+
+  <!-- The Problem -->
+  <section id="problem">
+    <div class="center">
+      <div class="badge">THE PROBLEM</div>
+      <h2 class="reveal">Limitations of Current PSA Testing</h2>
+      <p class="reveal" style="max-width:900px">Today’s prostate cancer screening relies heavily on blood-draw PSA measurements done episodically. This can delay detection, miss fast-moving changes, and generate uncertainty for patients and clinicians.</p>
+
+      <div class="grid-4" style="margin-top:26px">
+        <div class="glass panel reveal">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#86f0ff"><path d="M12 22c4-6 4-10 0-16-4 6-4 10 0 16z"/><circle cx="12" cy="7" r="3"/></svg></div>
+          <h3>Invasive Blood Draws</h3>
+          <p>Needles and clinic visits reduce screening frequency and patient adherence.</p>
+        </div>
+        <div class="glass panel reveal">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#86f0ff"><path d="M3 6h18v2H3zM6 11h12v2H6zM9 16h6v2H9z"/></svg></div>
+          <h3>Episodic Screening</h3>
+          <p>Single time‑points miss dynamic biomarker changes between appointments.</p>
+        </div>
+        <div class="glass panel reveal">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#86f0ff"><path d="M4 4h16v8H4z"/><path d="M2 18h20v2H2z"/></svg></div>
+          <h3>Delayed Detection</h3>
+          <p>Signals may emerge months earlier in urine but go unseen without continuous monitoring.</p>
+        </div>
+        <div class="glass panel reveal">
+          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="#86f0ff"><path d="M12 2l10 6-10 6L2 8z"/><circle cx="12" cy="20" r="2"/></svg></div>
+          <h3>False Positives/Negatives</h3>
+          <p>PSA alone can be noisy; contextual, longitudinal analysis can improve confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how">
+    <div class="center">
+      <div class="badge">HOW IT WORKS</div>
+      <h2 class="reveal">Urine Sample → Microfluidic Cartridge → Biomarker Analysis → AI Signal Processing → Longitudinal Risk Monitoring</h2>
+      <p class="reveal" style="max-width:900px">A portable device concentrates urinary biomarkers on a microfluidic chip, detects PSA, PCA3 and related signals via biosensors, and streams data to an on‑device/secure cloud AI for anomaly detection and trend analysis.</p>
+
+      <div class="flow" style="margin-top:18px">
+        <div class="glass step reveal">
+          <h3>Urine Sample</h3>
+          <p>Non‑invasive collection with sterile cup or direct-to-strip adapter.</p>
+          <img alt="molecular glow" src="data:image/svg+xml;utf8,<svg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='320' height='120'><circle cx='60' cy='60' r='30' fill='%235ad1ff' opacity='.25'/><circle cx='120' cy='40' r='10' fill='%2386f0ff' opacity='.5'/><circle cx='150' cy='80' r='14' fill='%235ad1ff' opacity='.45'/></svg>" style="width:100%;border-radius:12px;mix-blend:screen;opacity:.9">
+        </div>
+        <div class="glass step reveal">
+          <h3>Microfluidic Cartridge</h3>
+          <p>Chip separates plasma-like fractions and concentrates targets for detection.</p>
+          <img alt="microfluidic" src="data:image/svg+xml;utf8,<svg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='320' height='120'><rect x='10' y='40' width='300' height='40' rx='20' fill='rgba(134,240,255,.2)' stroke='%2386f0ff'/><path d='M20 60h60q20 0 20 20t20 20h150' stroke='%232dd4bf' stroke-width='3' fill='none'/></svg>" style="width:100%;border-radius:12px;mix-blend:screen;opacity:.9">
+        </div>
+        <div class="glass step reveal">
+          <h3>Biomarker Analysis</h3>
+          <p>PSA/PCA3 capture probes with electrochemical readout and amplification.</p>
+          <img alt="biosensor" src="data:image/svg+xml;utf8,<svg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='320' height='120'><line x1='20' y1='100' x2='300' y2='20' stroke='%235ad1ff' stroke-width='4'/><circle cx='100' cy='70' r='8' fill='%232dd4bf'/><circle cx='220' cy='50' r='8' fill='%232dd4bf'/></svg>" style="width:100%;border-radius:12px;mix-blend:screen;opacity:.9">
+        </div>
+        <div class="glass step reveal">
+          <h3>AI Signal Processing</h3>
+          <p>Noise reduction, drift correction, multi-biomarker fusion, anomaly scoring.</p>
+          <img alt="AI" src="data:image/svg+xml;utf8,<svg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='320' height='120'><rect x='10' y='20' width='300' height='80' rx='12' fill='rgba(13,26,50,.9)' stroke='%235ad1ff'/><text x='160' y='70' fill='%23bff3ff' font-size='24' text-anchor='middle'>AI</text></svg>" style="width:100%;border-radius:12px">
+        </div>
+        <div class="glass step reveal">
+          <h3>Longitudinal Monitoring</h3>
+          <p>Personalized baselines, trend velocity, doubling-time, and risk trajectories.</p>
+          <img alt="monitoring" src="data:image/svg+xml;utf8,<svg xmlns='[w3.org](http://www.w3.org/2000/svg)' width='320' height='120'><polyline points='10,100 70,90 130,80 190,70 250,60 310,55' fill='none' stroke='%235ad1ff' stroke-width='3'/><polyline points='10,110 70,95 130,88 190,82 250,76 310,70' fill='none' stroke='%232dd4bf' stroke-width='3' stroke-dasharray='6 6'/></svg>" style="width:100%;border-radius:12px">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Dashboard -->
+  <section id="dashboard">
+    <div class="center">
+      <div class="badge">AI DASHBOARD</div>
+      <h2 class="reveal">Holographic Medical UI</h2>
+      <p class="reveal" style="max-width:900px">Cinematic glass panels visualize PSA, PCA3 and composite risk with anomaly detection and confidence intervals—designed for clinicians and at‑home users.</p>
+
+      <div class="dash" style="margin-top:20px">
+        <div class="glass panel reveal">
+          <h3 style="margin-bottom:6px">PSA Trend</h3>
+          <div class="chart"><canvas id="psaChart" aria-label="PSA chart"></canvas></div>
+          <div class="legend">
+            <span><span class="dot" style="background:#5ad1ff"></span>PSA</span>
+            <span><span class="dot" style="background:#2dd4bf"></span>Baseline</span>
+            <span><span class="dot" style="background:#ffb86b"></span>Velocity</span>
+          </div>
+        </div>
+        <div class="glass panel reveal">
+          <h3 style="margin-bottom:6px">Risk Insights</h3>
+          <div class="grid-2">
+            <div class="glass panel" style="padding:14px">
+              <div class="mini">Composite Confidence</div>
+              <h2 style="color:#bff3ff">92%</h2>
+              <p>Ensemble agreement on current low-risk trajectory.</p>
+            </div>
+            <div class="glass panel" style="padding:14px">
+              <div class="mini">Anomaly Detection</div>
+              <h2 style="color:#3be3a5">Stable</h2>
+              <p>No significant deviation vs personalized baseline past 90 days.</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="mini">PCA3 Analysis</div>
+          <p>Within personalized reference band; no co-elevation with PSA observed.</p>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-top:24px">
+        <div class="glass panel reveal">
+          <div class="mini">Longitudinal Tracking</div>
+          <p>Adaptive baselines calibrate to the individual, reducing false positives from transient spikes.</p>
+        </div>
+        <div class="glass panel reveal">
+          <div class="mini">Personalized Baseline</div>
+          <p>Modeling accounts for age, intra‑individual variability, hydration, and diurnal patterns.</p>
+        </div>
+        <div class="glass panel reveal">
+          <div class="mini">Clinician View</div>
+          <p>Exportable reports with trend velocity, doubling time estimates, and confidence bands.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Future Vision -->
+  <section id="vision">
+    <div class="center">
+      <div class="badge">FUTURE VISION</div>
+      <h2 class="reveal">Reactive Healthcare → Preventative Healthcare</h2>
+      <div class="grid-3" style="margin-top:16px">
+        <div class="glass panel reveal">
+          <h3>Continuous Monitoring</h3>
+          <p>From episodic labs to convenient, at‑home checks with trend intelligence.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Personalized Diagnostics</h3>
+          <p>Multi‑omic signals tailored to the individual over time improve specificity.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>AI‑Assisted Medicine</h3>
+          <p>Decision support that highlights anomalies, context, and next‑best actions for clinicians.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Non‑Invasive Home Testing</h3>
+          <p>Urine-based sampling lowers barriers and encourages proactive engagement.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Privacy & Security</h3>
+          <p>Edge processing with encrypted sync and role‑based clinical sharing.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Population Insights</h3>
+          <p>Aggregated, de‑identified trends can inform screening guidelines and research.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology -->
+  <section id="technology">
+    <div class="center">
+      <div class="badge">TECHNOLOGY</div>
+      <h2 class="reveal">Under-the-hood</h2>
+      <div class="grid-3" style="margin-top:18px">
+        <div class="glass panel reveal">
+          <h3>Microfluidics</h3>
+          <p>Cartridge routes and concentrates analytes via capillary channels and surface chemistries.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Biosensors</h3>
+          <p>PSA/PCA3-specific capture with electrochemical amplification and drift compensation.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Biomarker Analysis</h3>
+          <p>Signal normalization vs hydration and time-of-day; multi-biomarker fusion.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>AI Anomaly Detection</h3>
+          <p>Temporal models detect subtle inflections and assign interpretable confidence scores.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Longitudinal Monitoring</h3>
+          <p>Velocity, doubling-time, and baseline shifts tracked continuously for early alerts.</p>
+        </div>
+        <div class="glass panel reveal">
+          <h3>Connectivity</h3>
+          <p>Secure BLE pairing with optional cloud sync and clinician dashboard integration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="center">
+      <div class="badge">CONTACT</div>
+      <div class="glass panel reveal">
+        <h2 style="margin-bottom:10px">Founder</h2>
+        <p><strong>Name:</strong> Ehinomen Esekheilu</p>
+        <p><strong>Email:</strong> <a href="mailto:esesekheilu@gmail.com">esesekheilu@gmail.com</a></p>
+        <p><strong>Location:</strong> Calgary, AB, Canada</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final Scene -->
+  <section class="end" id="end">
+    <div class="center">
+      <p class="reveal" style="font-size:clamp(18px,2vw,24px); color:#cfeaff; margin-bottom:30px">“The future of healthcare may begin with signals.”</p>
+      <div class="sig reveal">SIGNALPSA</div>
+    </div>
+  </section>
+
+  <script>
+    // Particle field + soft orbs
+    const c = document.getElementById('fx'), ctx = c.getContext('2d');
+    let w, h, particles = [];
+    function resize(){
+      w = c.width = window.innerWidth;
+      h = c.height = window.innerHeight;
+      particles = Array.from({length: Math.min(140, Math.floor(w*h/18000))}, () => ({
+        x: Math.random()*w, y: Math.random()*h,
+        vx:(Math.random()-.5)*.2, vy:(Math.random()-.5)*.2,
+        r: Math.random()*1.6+0.3, a: Math.random()*.5+.2
+      }));
+    }
+    window.addEventListener('resize', resize); resize();
+    function tick(){
+      ctx.clearRect(0,0,w,h);
+      // soft glow orbs
+      for(let i=0;i<3;i++){
+        const gx = (i*0.33+performance.now()/140000)%1*w;
+        const gy = h*(0.2 + 0.6*((i+1)%2));
+        const grad = ctx.createRadialGradient(gx,gy,0,gx,gy,300);
+        grad.addColorStop(0,'rgba(90,209,255,.10)');
+        grad.addColorStop(1,'rgba(90,209,255,0)');
+        ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(gx,gy,300,0,Math.PI*2); ctx.fill();
+      }
+      // particles
+      ctx.fillStyle='rgba(134,240,255,.65)';
+      particles.forEach(p=>{
+        p.x+=p.vx; p.y+=p.vy;
+        if(p.x<0) p.x=w; if(p.x>w) p.x=0;
+        if(p.y<0) p.y=h; if(p.y>h) p.y=0;
+        ctx.globalAlpha=p.a;
+        ctx.fillRect(p.x,p.y,p.r,p.r);
+      });
+      ctx.globalAlpha=1;
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    }, {threshold:.14});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    // Simple line chart (no external libs)
+    const ch = document.getElementById('psaChart');
+    function drawChart(){
+      const dpr = Math.min(2, window.devicePixelRatio||1);
+      const parent = ch.parentElement.getBoundingClientRect();
+      ch.width = parent.width*dpr; ch.height = parent.height*dpr;
+      ch.style.width = parent.width+'px'; ch.style.height = parent.height+'px';
+      const g = ch.getContext('2d'); g.scale(dpr,dpr);
+      const W = parent.width, H = parent.height;
+      g.clearRect(0,0,W,H);
+      // grid
+      g.strokeStyle='rgba(134,240,255,.15)'; g.lineWidth=1;
+      for(let i=0;i<=5;i++){ const y=H-20 - i*(H-60)/5; g.beginPath(); g.moveTo(40,y); g.lineTo(W-20,y); g.stroke(); }
+      // axes
+      g.strokeStyle='rgba(134,240,255,.28)'; g.beginPath(); g.moveTo(40,20); g.lineTo(40,H-20); g.lineTo(W-20,H-20); g.stroke();
+      // data
+      const x=[0,1,2,3,4,5,6,7,8,9,10,11], psa=[0.8,0.9,0.95,1.0,1.1,1.25,1.3,1.35,1.4,1.45,1.52,1.55];
+      const base = psa.map(v=>1.2);
+      const vx = i => 40 + i*(W-80)/(x.length-1);
+      const vy = v => (H-20) - (v/2.5)*(H-60); // scale to 0-2.5 ng/mL
+      // baseline
+      g.strokeStyle='#2dd4bf'; g.setLineDash([6,6]); g.beginPath();
+      base.forEach((v,i)=>{ if(i===0) g.moveTo(vx(i),vy(v)); else g.lineTo(vx(i),vy(v)); });
+      g.stroke(); g.setLineDash([]);
+      // PSA line
+      g.strokeStyle='#5ad1ff'; g.lineWidth=2.4; g.beginPath();
+      psa.forEach((v,i)=>{ if(i===0) g.moveTo(vx(i),vy(v)); else g.lineTo(vx(i),vy(v)); }); g.stroke();
+      // velocity color band
+      const grad=g.createLinearGradient(0,0,W,0); grad.addColorStop(0,'#ffb86b'); grad.addColorStop(1,'#5ad1ff');
+      g.strokeStyle=grad; g.lineWidth=1.6; g.beginPath();
+      for(let i=1;i<psa.length;i++){ const vel = psa[i]-psa[i-1]; const y=vy(psa[i]-vel*.5); g.lineTo(vx(i),y); if(i===1) g.moveTo(vx(0),vy(psa[0])) } g.stroke();
+      // points
+      psa.forEach((v,i)=>{ g.fillStyle='#bff3ff'; g.beginPath(); g.arc(vx(i),vy(v),3,0,Math.PI*2); g.fill(); });
+      // labels
+      g.fillStyle='#cfeaff'; g.font='12px Inter'; g.fillText('ng/mL', 6, 16);
+      g.fillStyle='#9fdfff'; g.fillText('0', 14, H-20); g.fillText('2.5', 6, 28);
+    }
+    new ResizeObserver(drawChart).observe(document.querySelector('.chart'));
+    window.addEventListener('load', drawChart);
+
+    // Smooth anchor offset on nav height
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ e.preventDefault(); const y = el.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({top:y, behavior:'smooth'}) }
+      });
+    });
+  </script>
+</body>
+</html>
