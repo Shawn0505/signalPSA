@@ -71,15 +71,58 @@ canvas#field{position:fixed; inset:0; z-index:-1}
 p{color:var(--muted); line-height:1.75}
 
 /* HOW IT WORKS */
-.flow{display:flex; gap:18px; flex-wrap:wrap; align-items:stretch}
-.step{flex:1 1 210px; position:relative; padding:22px; overflow:hidden}
-.step .mini{color:#cfe9ff; font-size:.9rem}
-.step:after{content:"↓"; position:absolute; right:12px; bottom:10px; color:#8bdcff; font-weight:900; opacity:.6}
-.step:last-child:after{display:none}
-.mol{position:absolute; inset:auto auto -12% -12%; width:140%; height:140%; background:
-  radial-gradient(120px 120px at 30% 40%, rgba(99,219,255,.16), transparent 60%),
-  radial-gradient(90px 90px at 70% 70%, rgba(45,212,191,.18), transparent 70%); mix-blend:screen; filter:blur(10px); animation:drift 18s linear infinite}
-@keyframes drift{0%{transform:translate(0,0)}50%{transform:translate(10px,-8px)}100%{transform:translate(0,0)}}
+<div class="how-grid" style="margin-top:18px">
+  <div class="how-card glass reveal">
+    <img class="how-img" src="assets/flow-1-sample.webp" alt="Urine sample diversion" onerror="this.style.display='none'">
+    <div class="how-kicker">1</div>
+    <h3>Urine Sample</h3>
+    <p>During normal use, a small volume is diverted automatically to a sealed path.</p>
+  </div>
+
+  <div class="how-card glass reveal">
+    <img class="how-img" src="assets/flow-2-cartridge.webp" alt="Microfluidic cartridge" onerror="this.style.display='none'">
+    <div class="how-kicker">2</div>
+    <h3>Microfluidic Cartridge</h3>
+    <p>Capillary channels route, filter, and concentrate analytes on a disposable chip.</p>
+  </div>
+
+  <div class="how-card glass reveal">
+    <img class="how-img" src="assets/flow-3-biosensor.webp" alt="Biosensor detection" onerror="this.style.display='none'">
+    <div class="how-kicker">3</div>
+    <h3>Biomarker Detection</h3>
+    <p>PSA/PCA3 and inflammation markers bind to probes; signals are amplified.</p>
+  </div>
+
+  <div class="how-card glass reveal">
+    <img class="how-img" src="assets/flow-4-ai.webp" alt="AI processing" onerror="this.style.display='none'">
+    <div class="how-kicker">4</div>
+    <h3>AI Processing</h3>
+    <p>Normalize → denoise → fuse multi‑markers → score confidence and anomalies.</p>
+  </div>
+
+  <div class="how-card glass reveal">
+    <img class="how-img" src="assets/flow-5-dashboard.webp" alt="Longitudinal dashboard" onerror="this.style.display='none'">
+    <div class="how-kicker">5</div>
+    <h3>Longitudinal Monitoring</h3>
+    <p>Personalized baseline trends with velocity and doubling‑time estimates.</p>
+  </div>
+</div>
+
+<div class="cartridge" style="margin-top:30px">
+  <div class="reveal">
+    <img src="assets/cartridge-exploded.webp" alt="Exploded microfluidic cartridge: inlet, channels, biosensor, processor" loading="lazy" onerror="this.src='cartridge view.png'">
+  </div>
+  <div class="glass panel reveal">
+    <h3>Inside the Cartridge</h3>
+    <ul>
+      <li>Inlet port: collects a small sample.</li>
+      <li>Microfluidic channels: direct, filter, and concentrate analytes.</li>
+      <li>Biosensor layer: PSA/PCA3 + inflammation probes; electrochemical readout.</li>
+      <li>Signal processor: amplification + digitization for clean downstream analysis.</li>
+    </ul>
+  </div>
+</div>
+
 
 /* INSIDE CARTRIDGE */
 .cartridge{display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:center}
